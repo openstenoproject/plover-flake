@@ -49,6 +49,20 @@ If you use [home-manager](https://github.com/nix-community/home-manager), there 
 
 If you don't want nix to manage the configuration of plover, you can omit the `settings` value.
 
+## NixOS configuration
+
+If you use wayland, you will want to add the following snippet to your NixOS system configuration.
+
+```nix
+services.udev.extraRules = ''
+    KERNEL=="uinput", GROUP="input", MODE="0660", OPTIONS+="static_node=uinput"
+'';
+
+users.users."YOUR USER".extraGroups = [ "input" ];
+```
+
+This gives your user the necessary permissions to output characters through plover.
+
 ## Troubleshooting
 
 If a specific plugin fails to build it is most likely because of a missing dependency. In that case that dependency can be added to overrides.nix, any pull requests doing so are welcome.
