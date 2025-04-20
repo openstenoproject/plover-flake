@@ -2,9 +2,12 @@
 
 This is an experimental flake which packages plover for nix, along with support for plugins from the plugins registry.
 
+> [!NOTE]
+> This flake recently upgraded plover to switch from QT5 to QT6, which broke many GUI plugins. If you wish to keep using the old version of plover, switch to an older version of this flake by changing the input URL to `github:openstenoproject/plover-flake/6807afead2fb9e402dddb038d45b38e6226e94d1`. The documentation for the old version can be found [here](https://github.com/openstenoproject/plover-flake/tree/6807afead2fb9e402dddb038d45b38e6226e94d1).
+
 ## Usage
 
-Add this flake to your flake inputs, e.g. `inputs.plover-flake.url = "github:dnaq/plover-flake";`
+Add this flake to your flake inputs, e.g. `inputs.plover-flake.url = "github:openstenoproject/plover-flake";`
 
 Then a plover derivation containing the plugins you want can be built with
 
