@@ -3,8 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     plover = {
-      # url = "github:openstenoproject/plover";
-      url = "github:greghope667/plover/pyqt6-migration"; # FIXME: use upstream when PR is merged: https://github.com/openstenoproject/plover/pull/1601
+      url = "github:openstenoproject/plover";
       flake = false;
     };
     plover_plugins_registry = {
