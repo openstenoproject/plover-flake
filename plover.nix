@@ -42,6 +42,7 @@ buildPythonPackage {
 
   buildInputs = [
     qt6.qtsvg # required for rendering icons
+    qt6.qtwayland
   ];
 
   propagatedBuildInputs = [
