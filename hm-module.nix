@@ -70,10 +70,12 @@ in
             };
 
             "Plugins" = {
-              enabled_extensions = mkConfig (listOf str) [
-                "modal_update"
-                "plover_auto_reconnect_machine"
-              ];
+              enabled_extensions = lib.options.mkOption {
+                example = ["modal_update" "plover_auto_reconnect_machine"];
+                type = (listOf str);
+                default = null;
+                apply = xs: "[" + builtins.concatStringsSep ", " (map (x: "\"${x}\"") xs) + "]";
+              };
             };
 
             "System" = {
