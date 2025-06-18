@@ -15,7 +15,7 @@ Then a plover derivation containing the plugins you want can be built with
 inputs.plover-flake.packages.${system}.plover.withPlugins (ps: with ps; [
   plover-lapwing-aio
   plover-console-ui
-];
+]);
 ```
 
 Where `ps` is an attribute set containing all plugins from the plugin registry, as well as some extra plugins.
