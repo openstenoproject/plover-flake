@@ -7,7 +7,16 @@ self:
 }:
 let
   cfg = config.programs.plover;
-  iniFormat = pkgs.formats.ini { };
+  iniFormat = pkgs.formats.ini {
+    mkKeyValue = lib.generators.mkKeyValueDefault {
+      mkValueString =
+        v:
+        if builtins.isList v || builtins.isAttrs v then
+          builtins.toJSON v
+        else
+          lib.generators.mkValueStringDefault { } v;
+    } "=";
+  };
 in
 {
   options.programs.plover = {
