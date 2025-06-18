@@ -54,6 +54,12 @@ If you don't want nix to manage the configuration of plover, you can omit the `s
 
 ## NixOS configuration
 
+To let Plover find serial ports, add your user to the `dialout` user group:
+
+```nix
+users.users."YOUR USER".extraGroups = [ "dialout" ];
+```
+
 If you use wayland, you will want to add the following snippet to your NixOS system configuration.
 
 ```nix
