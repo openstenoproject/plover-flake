@@ -7,6 +7,7 @@
   pyserial,
   qt6,
   requests-futures,
+  psutil,
   setuptools,
   wcwidth,
   xlib,
@@ -62,6 +63,7 @@ buildPythonPackage {
     requests-cache
     requests-futures
     plover-stroke
+    psutil
     rtf-tokenize
   ];
 
