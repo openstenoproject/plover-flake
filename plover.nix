@@ -11,6 +11,7 @@
   wcwidth,
   xlib,
   evdev,
+  packaging,
   pkginfo,
   pygments,
   readme-renderer,
@@ -55,6 +56,7 @@ buildPythonPackage {
     setuptools
     certifi
     evdev
+    packaging
     pkginfo
     pygments
     readme-renderer
