@@ -6,6 +6,7 @@
   evdev,
   xkbcommon,
   lxml,
+  inflect,
   buildPythonPackage,
   fetchPypi,
 }:
@@ -34,6 +35,12 @@ final: prev: {
   });
   plover-svg-layout-display = prev.plover-svg-layout-display.overrideAttrs (old: {
     propagatedBuildInputs = [ lxml ];
+  });
+  plover-stenobee = prev.plover-stenobee.overrideAttrs (old: {
+    propagatedBuildInputs = [
+      inflect 
+      final.plover-python-dictionary
+    ];
   });
   plover-lapwing-aio = prev.plover-lapwing-aio.overrideAttrs (old: {
     propagatedBuildInputs = [
