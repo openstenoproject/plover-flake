@@ -19,6 +19,7 @@
   cmarkgfm,
   requests-cache,
   inputs,
+  writeShellScriptBin
 }:
 let
   plover-stroke = buildPythonPackage {
@@ -31,6 +32,16 @@ let
     version = "master";
     src = inputs.rtf-tokenize;
   };
+  # Matches missing pyside6-uic and pyside6-rcc implementations
+  # https://github.com/NixOS/nixpkgs/issues/277849
+  # https://github.com/NixOS/nixpkgs/blob/0ab0fd44102fd7259708584c6eafb78b1aeee0d3/pkgs/development/python-modules/openusd/default.nix#L44-L50
+  # https://code.qt.io/cgit/pyside/pyside-setup.git/tree/sources/pyside-tools/pyside_tool.py?id=9b310d4c0654a244147766e382834b5e8bdeb762#n90
+  pyside-tools-uic = writeShellScriptBin "pyside6-uic" ''
+    exec ${qt6.qtbase}/libexec/uic -g python "$@"
+  '';
+  pyside-tools-rcc = writeShellScriptBin "pyside6-rcc" ''
+    exec ${qt6.qtbase}/libexec/rcc -g python "$@"
+  '';
 in
 buildPythonPackage {
   pname = "plover";
@@ -69,11 +80,10 @@ buildPythonPackage {
     rtf-tokenize
   ];
 
-  preConfigure = ''
-    export PATH=${qt6.qtbase}/libexec:$PATH
+  postPatch = ''
     substituteInPlace "plover_build_utils/setup.py" \
-      --replace-fail "'pyside6-rcc'" "'${qt6.qtbase}/libexec/rcc', '-g', 'python'" \
-      --replace-fail "'pyside6-uic'" "'${qt6.qtbase}/libexec/uic', '-g', 'python'"
+      --replace-fail "pyside6-rcc" "${pyside-tools-rcc}/bin/pyside6-rcc" \
+      --replace-fail "pyside6-uic" "${pyside-tools-uic}/bin/pyside6-uic"
   '';
 
   postInstall = ''
