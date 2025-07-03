@@ -51,6 +51,8 @@ buildPythonPackage {
   nativeBuildInputs = [
     qt6.qtbase
     qt6.wrapQtAppsHook
+    pyside-tools-uic
+    pyside-tools-rcc
   ];
 
   buildInputs = [
@@ -79,12 +81,6 @@ buildPythonPackage {
     psutil
     rtf-tokenize
   ];
-
-  postPatch = ''
-    substituteInPlace "plover_build_utils/setup.py" \
-      --replace-fail "pyside6-rcc" "${pyside-tools-rcc}/bin/pyside6-rcc" \
-      --replace-fail "pyside6-uic" "${pyside-tools-uic}/bin/pyside6-uic"
-  '';
 
   postInstall = ''
     mkdir -p $out/share/icons/hicolor/128x128/apps
