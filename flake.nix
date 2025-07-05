@@ -53,6 +53,8 @@
         };
       });
 
+      formatter = forEachSystem (pkgs: pkgs.nixfmt-tree);
+
       ploverPlugins = forEachSystem (
         pkgs:
         pkgs.python3Packages.callPackage ./plugins.nix {

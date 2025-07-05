@@ -38,7 +38,7 @@ final: prev: {
   });
   plover-stenobee = prev.plover-stenobee.overrideAttrs (old: {
     propagatedBuildInputs = [
-      inflect 
+      inflect
       final.plover-python-dictionary
     ];
   });

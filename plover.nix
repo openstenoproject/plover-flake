@@ -19,7 +19,7 @@
   cmarkgfm,
   requests-cache,
   inputs,
-  writeShellScriptBin
+  writeShellScriptBin,
 }:
 let
   plover-stroke = buildPythonPackage {
