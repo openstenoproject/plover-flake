@@ -26,11 +26,15 @@ let
     pname = "plover_stroke";
     version = "master";
     src = inputs.plover-stroke;
+    pyproject = true;
+    build-system = [ setuptools ];
   };
   rtf-tokenize = buildPythonPackage {
     pname = "rtf_tokenize";
     version = "master";
     src = inputs.rtf-tokenize;
+    pyproject = true;
+    build-system = [ setuptools ];
   };
   # Matches missing pyside6-uic and pyside6-rcc implementations
   # https://github.com/NixOS/nixpkgs/issues/277849
@@ -47,6 +51,8 @@ buildPythonPackage {
   pname = "plover";
   version = "master";
   src = inputs.plover;
+  pyproject = true;
+  build-system = [ setuptools ];
 
   nativeBuildInputs = [
     qt6.qtbase
@@ -60,7 +66,7 @@ buildPythonPackage {
     qt6.qtwayland
   ];
 
-  propagatedBuildInputs = [
+  dependencies = [
     Babel
     pyside6
     xlib
@@ -82,6 +88,11 @@ buildPythonPackage {
     rtf-tokenize
   ];
 
+  # PySide6-Essentials it not on nixpkgs. See: https://github.com/NixOS/nixpkgs/issues/277849
+  postPatch = ''
+    substituteInPlace "pyproject.toml" --replace-fail "PySide6-Essentials" "PySide6"
+  '';
+
   postInstall = ''
     mkdir -p $out/share/icons/hicolor/128x128/apps
     cp $src/plover/assets/plover.png $out/share/icons/hicolor/128x128/apps/plover.png
@@ -89,7 +100,13 @@ buildPythonPackage {
     mkdir -p $out/share/applications
     cp $src/linux/plover.desktop $out/share/applications/plover.desktop
     substituteInPlace "$out/share/applications/plover.desktop" \
-      --replace-warn "Exec=plover" "Exec=$out/bin/plover"
+      --replace-fail "Exec=plover" "Exec=$out/bin/plover"
+  '';
+
+  # See: https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/qt.section.md
+  dontWrapQtApps = true;
+  preFixup = ''
+    wrapQtApp "$out/bin/plover"
   '';
 
   doCheck = false;

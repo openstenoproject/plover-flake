@@ -23,7 +23,6 @@ let
     doCheck = false;
   };
   obsws-python = buildPythonPackage rec {
-    format = "pyproject";
     pname = "obsws_python";
     version = "1.6.1";
     src = fetchPypi {
@@ -31,7 +30,7 @@ let
       sha256 = "sha256-n1l4M3xVfp+8pnO1rF3Ww7Vwyi6GCD3/QHLbrZOXp7w=";
     };
     buildInputs = [ hatchling ];
-    propagatedBuildInputs = [
+    dependencies = [
       tomli
       websocket-client
     ];
@@ -43,7 +42,7 @@ in
     version = "master";
     src = inputs.plover-machine-hid;
     buildInputs = [ plover ];
-    propagatedBuildInputs = [
+    dependencies = [
       hid
       bitarray
     ];
@@ -53,7 +52,7 @@ in
     version = "master";
     src = inputs.plover2cat;
     buildInputs = [ plover ];
-    propagatedBuildInputs = [
+    dependencies = [
       dulwich
       odfpy
       pyparsing

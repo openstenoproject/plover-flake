@@ -12,38 +12,38 @@
 }:
 final: prev: {
   plover-yaml-dictionary = prev.plover-yaml-dictionary.overrideAttrs (old: {
-    propagatedBuildInputs = [ ruamel-yaml ];
+    dependencies = [ ruamel-yaml ];
   });
   plover-console-ui = prev.plover-console-ui.overrideAttrs (old: {
-    propagatedBuildInputs = [ prompt-toolkit ];
+    dependencies = [ prompt-toolkit ];
     doCheck = false;
     doInstallCheck = false;
   });
   plover-controller = prev.plover-controller.overrideAttrs (old: {
-    propagatedBuildInputs = [ pysdl2 ];
+    dependencies = [ pysdl2 ];
     doCheck = false;
     doInstallCheck = false;
   });
   plover-dict-commands = prev.plover-dict-commands.overrideAttrs (old: {
-    propagatedBuildInputs = [ setuptools-scm ];
+    dependencies = [ setuptools-scm ];
   });
   plover-uinput = prev.plover-uinput.overrideAttrs (old: {
-    propagatedBuildInputs = [
+    dependencies = [
       evdev
       xkbcommon
     ];
   });
   plover-svg-layout-display = prev.plover-svg-layout-display.overrideAttrs (old: {
-    propagatedBuildInputs = [ lxml ];
+    dependencies = [ lxml ];
   });
   plover-stenobee = prev.plover-stenobee.overrideAttrs (old: {
-    propagatedBuildInputs = [
+    dependencies = [
       inflect
       final.plover-python-dictionary
     ];
   });
   plover-lapwing-aio = prev.plover-lapwing-aio.overrideAttrs (old: {
-    propagatedBuildInputs = [
+    dependencies = [
       final.plover-stitching
       final.plover-python-dictionary
       final.plover-modal-dictionary
@@ -64,7 +64,7 @@ final: prev: {
       };
     in
     prev.plover-emoji.overrideAttrs (old: {
-      propagatedBuildInputs = [
+      dependencies = [
         simplefuzzyset
       ];
     });

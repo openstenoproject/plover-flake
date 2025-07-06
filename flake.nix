@@ -1,8 +1,6 @@
 {
   inputs = {
-    # Temporarily pinned nixpkgs
-    nixpkgs.url = "github:NixOS/nixpkgs/2631b0b7abcea6e640ce31cd78ea58910d31e650";
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     plover = {
       url = "github:openstenoproject/plover";
@@ -71,12 +69,10 @@
             withPlugins =
               f: # f is a function such as (ps: with ps; [ plugin names ])
               plover'.overrideAttrs (old: {
-                propagatedBuildInputs = old.propagatedBuildInputs ++ (f self.ploverPlugins.${pkgs.system});
+                dependencies = old.dependencies ++ (f self.ploverPlugins.${pkgs.system});
               });
-
-            with-plugins = _: throw "The `with-plugins` option has been renamed to `withPlugins`.";
           in
-          plover' // { inherit withPlugins with-plugins; };
+          plover' // { inherit withPlugins; };
 
         update = pkgs.callPackage ./update.nix { inherit inputs; };
       });
