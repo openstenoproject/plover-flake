@@ -50,6 +50,10 @@ final: prev: {
       final.plover-last-translation
       final.plover-dict-commands
     ];
+    # NOTE: Remove it on failure:
+    postPatch = ''
+      substituteInPlace "setup.cfg" --replace-fail "setuptools<77" "setuptools"
+    '';
   });
   plover-emoji =
     let
