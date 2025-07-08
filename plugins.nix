@@ -4,6 +4,7 @@
   fetchPypi,
   lib,
   plover,
+  setuptools,
   inputs,
 }:
 let
@@ -20,6 +21,8 @@ let
         inherit (plugin) sha256;
       };
       buildInputs = [ plover ];
+      pyproject = true;
+      build-system = [ setuptools ];
     });
   pluginToAttr = p: {
     name = p.pname;
