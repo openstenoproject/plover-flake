@@ -2,6 +2,7 @@
   ruamel-yaml,
   prompt-toolkit,
   pysdl2,
+  setuptools,
   setuptools-scm,
   evdev,
   xkbcommon,
@@ -11,39 +12,39 @@
   fetchPypi,
 }:
 final: prev: {
-  plover-yaml-dictionary = prev.plover-yaml-dictionary.overrideAttrs (old: {
-    propagatedBuildInputs = [ ruamel-yaml ];
+  plover-yaml-dictionary = prev.plover-yaml-dictionary.overridePythonAttrs (old: {
+    dependencies = [ ruamel-yaml ];
   });
-  plover-console-ui = prev.plover-console-ui.overrideAttrs (old: {
-    propagatedBuildInputs = [ prompt-toolkit ];
+  plover-console-ui = prev.plover-console-ui.overridePythonAttrs (old: {
+    dependencies = [ prompt-toolkit ];
     doCheck = false;
     doInstallCheck = false;
   });
-  plover-controller = prev.plover-controller.overrideAttrs (old: {
-    propagatedBuildInputs = [ pysdl2 ];
+  plover-controller = prev.plover-controller.overridePythonAttrs (old: {
+    dependencies = [ pysdl2 ];
     doCheck = false;
     doInstallCheck = false;
   });
-  plover-dict-commands = prev.plover-dict-commands.overrideAttrs (old: {
-    propagatedBuildInputs = [ setuptools-scm ];
+  plover-dict-commands = prev.plover-dict-commands.overridePythonAttrs (old: {
+    dependencies = [ setuptools-scm ];
   });
-  plover-uinput = prev.plover-uinput.overrideAttrs (old: {
-    propagatedBuildInputs = [
+  plover-uinput = prev.plover-uinput.overridePythonAttrs (old: {
+    dependencies = [
       evdev
       xkbcommon
     ];
   });
-  plover-svg-layout-display = prev.plover-svg-layout-display.overrideAttrs (old: {
-    propagatedBuildInputs = [ lxml ];
+  plover-svg-layout-display = prev.plover-svg-layout-display.overridePythonAttrs (old: {
+    dependencies = [ lxml ];
   });
-  plover-stenobee = prev.plover-stenobee.overrideAttrs (old: {
-    propagatedBuildInputs = [
+  plover-stenobee = prev.plover-stenobee.overridePythonAttrs (old: {
+    dependencies = [
       inflect
       final.plover-python-dictionary
     ];
   });
-  plover-lapwing-aio = prev.plover-lapwing-aio.overrideAttrs (old: {
-    propagatedBuildInputs = [
+  plover-lapwing-aio = prev.plover-lapwing-aio.overridePythonAttrs (old: {
+    dependencies = [
       final.plover-stitching
       final.plover-python-dictionary
       final.plover-modal-dictionary
@@ -60,15 +61,16 @@ final: prev: {
       simplefuzzyset = buildPythonPackage rec {
         pname = "simplefuzzyset";
         version = "0.0.12";
-
         src = fetchPypi {
           inherit pname version;
           hash = "sha256-mhsww4tq+3bGYAvdZsHB3D2FBbCC6ePUZvYPQOi34fI=";
         };
+        pyproject = true;
+        build-system = [ setuptools ];
       };
     in
-    prev.plover-emoji.overrideAttrs (old: {
-      propagatedBuildInputs = [
+    prev.plover-emoji.overridePythonAttrs (old: {
+      dependencies = [
         simplefuzzyset
       ];
     });
