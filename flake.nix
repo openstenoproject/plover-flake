@@ -68,8 +68,8 @@
             plover' = pkgs.python3Packages.callPackage ./plover.nix { inherit inputs; };
             withPlugins =
               f: # f is a function such as (ps: with ps; [ plugin names ])
-              plover'.overrideAttrs (old: {
-                propagatedBuildInputs = old.propagatedBuildInputs ++ (f self.ploverPlugins.${pkgs.system});
+              plover'.overridePythonAttrs (old: {
+                dependencies = old.dependencies ++ (f self.ploverPlugins.${pkgs.system});
               });
           in
           plover' // { inherit withPlugins; };
