@@ -6,6 +6,7 @@
   dulwich,
   odfpy,
   pyparsing,
+  setuptools,
   tomli,
   websocket-client,
   hatchling,
@@ -41,6 +42,8 @@ in
     pname = "plover-machine-hid";
     version = "master";
     src = inputs.plover-machine-hid;
+    pyproject = true;
+    build-system = [ setuptools ];
     buildInputs = [ plover ];
     dependencies = [
       hid
@@ -51,6 +54,8 @@ in
     pname = "plover2cat";
     version = "master";
     src = inputs.plover2cat;
+    pyproject = true;
+    build-system = [ setuptools ];
     buildInputs = [ plover ];
     dependencies = [
       dulwich
