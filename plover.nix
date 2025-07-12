@@ -57,13 +57,17 @@ buildPythonPackage {
   nativeBuildInputs = [
     qt6.qtbase
     qt6.wrapQtAppsHook
-    pyside-tools-uic
-    pyside-tools-rcc
   ];
 
   buildInputs = [
     qt6.qtsvg # required for rendering icons
     qt6.qtwayland
+  ];
+
+  # Other Plover plugins can depend on `plover_build_utils/setup.py`, so:
+  propagatedNativeBuildInputs = [
+    pyside-tools-uic
+    pyside-tools-rcc
   ];
 
   dependencies = [
