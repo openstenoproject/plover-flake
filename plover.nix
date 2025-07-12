@@ -92,6 +92,35 @@ buildPythonPackage {
     rtf-tokenize
   ];
 
+  pythonImportsCheck = [
+    "plover"
+    "plover.assets"
+    "plover.command"
+    "plover.dictionary"
+    "plover.gui_none"
+    "plover.gui_qt"
+    "plover.gui_qt.resources"
+    "plover.machine"
+    "plover.machine.keyboard_capture"
+    "plover.macro"
+    "plover.messages"
+    "plover.messages.es.LC_MESSAGES"
+    "plover.messages.fr.LC_MESSAGES"
+    "plover.messages.it.LC_MESSAGES"
+    "plover.messages.nl.LC_MESSAGES"
+    "plover.messages.zh_tw.LC_MESSAGES"
+    "plover.meta"
+    "plover.oslayer"
+    "plover.oslayer.linux"
+    "plover.oslayer.osx"
+    "plover.oslayer.windows"
+    "plover.output"
+    "plover.plugins_manager"
+    "plover.scripts"
+    "plover.system"
+    "plover_build_utils"
+  ];
+
   # PySide6-Essentials it not on nixpkgs. See: https://github.com/NixOS/nixpkgs/issues/277849
   postPatch = ''
     substituteInPlace "pyproject.toml" --replace-fail "PySide6-Essentials" "PySide6"
