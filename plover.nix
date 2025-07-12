@@ -91,6 +91,9 @@ buildPythonPackage {
   # PySide6-Essentials it not on nixpkgs. See: https://github.com/NixOS/nixpkgs/issues/277849
   postPatch = ''
     substituteInPlace "pyproject.toml" --replace-fail "PySide6-Essentials" "PySide6"
+    substituteInPlace "reqs/setup.txt" --replace-fail "PySide6-Essentials" "PySide6"
+    substituteInPlace "reqs/dist_extra_gui_qt.txt" --replace-fail "PySide6-Essentials" "PySide6"
+    substituteInPlace "reqs/constraints.txt" --replace-fail "PySide6-Essentials" "PySide6"
   '';
 
   postInstall = ''
