@@ -115,6 +115,4 @@ buildPythonPackage {
   preFixup = ''
     wrapQtApp "$out/bin/plover"
   '';
-
-  doCheck = false;
 }
