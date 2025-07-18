@@ -119,17 +119,24 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable (
-    lib.mkMerge [
-      {
-        home.packages = [ cfg.package ];
-      }
-      (lib.mkIf (cfg.settings != null) {
+  config =
+    let
+      configFile = iniFormat.generate "plover.cfg" (
         # It is necessary to filter the attrs because the option definitions require a default value, but should be unset in the result.
-        xdg.configFile."plover/plover.cfg".source = iniFormat.generate "plover.cfg" (
-          lib.filterAttrsRecursive (n: v: v != null) cfg.settings
-        );
-      })
-    ]
-  );
+        lib.filterAttrsRecursive (n: v: v != null) cfg.settings
+      );
+    in
+    lib.mkIf cfg.enable (
+      lib.mkMerge [
+        {
+          home.packages = [ cfg.package ];
+        }
+        (lib.mkIf (cfg.settings != null && pkgs.stdenvNoCC.isLinux) {
+          lib.xdg.configFile."plover".source = configFile;
+        })
+        (lib.mkIf (cfg.settings != null && pkgs.stdenvNoCC.isDarwin) {
+          home.file."Library/Application Support/plover/plover.cfg".source = configFile;
+        })
+      ]
+    );
 }

@@ -1,25 +1,39 @@
 {
+  buildPythonPackage,
+  darwin,
+  inputs,
+  lib,
+  pkgs,
+  stdenvNoCC,
+  qt6,
+  writeShellScriptBin,
+
+  # build-system
+  setuptools,
+
+  # dependencies
   appdirs,
   Babel,
-  buildPythonPackage,
   certifi,
+  cmarkgfm,
+  evdev,
+  psutil,
   pyside6,
   pyserial,
-  qt6,
   requests-futures,
-  psutil,
-  setuptools,
-  wcwidth,
-  xlib,
-  evdev,
   packaging,
   pkginfo,
   pygments,
   readme-renderer,
-  cmarkgfm,
   requests-cache,
-  inputs,
-  writeShellScriptBin,
+  xlib,
+  wcwidth,
+
+  # darwin
+  appnope,
+  pyobjc-core,
+  pyobjc-framework-Cocoa,
+# pyobjc-framework-Quartz, # when nixpkgs got it
 }:
 let
   plover-stroke = buildPythonPackage {
@@ -28,6 +42,42 @@ let
     src = inputs.plover-stroke;
     pyproject = true;
     build-system = [ setuptools ];
+  };
+  pyobjc-framework-Quartz = buildPythonPackage {
+    pname = "pyobjc-framework-Quartz";
+    version = "11.0";
+    src = inputs.pyobjc;
+    pyproject = true;
+    build-system = [ setuptools ];
+    sourceRoot = "source/pyobjc-framework-Quartz";
+
+    buildInputs = [
+      darwin.libffi
+    ];
+
+    nativeBuildInputs = [
+      darwin.DarwinTools # sw_vers
+    ];
+
+    dependencies = [
+      pyobjc-core
+      pyobjc-framework-Cocoa
+    ];
+
+    postPatch = ''
+      substituteInPlace pyobjc_setup.py \
+        --replace-fail "-buildversion" "-buildVersion" \
+        --replace-fail "-productversion" "-productVersion" \
+        --replace-fail "/usr/bin/sw_vers" "sw_vers" \
+        --replace-fail "/usr/bin/xcrun" "xcrun"
+    '';
+
+    env.NIX_CFLAGS_COMPILE = toString [
+      "-I${darwin.libffi.dev}/include"
+      "-Wno-error=unused-command-line-argument"
+    ];
+
+    pythonImportsCheck = [ "Quartz" ];
   };
   rtf-tokenize = buildPythonPackage {
     pname = "rtf_tokenize";
@@ -59,10 +109,13 @@ buildPythonPackage {
     qt6.wrapQtAppsHook
   ];
 
-  buildInputs = [
-    qt6.qtsvg # required for rendering icons
-    qt6.qtwayland
-  ];
+  buildInputs =
+    [
+      qt6.qtsvg # required for rendering icons
+    ]
+    ++ lib.optionals pkgs.stdenv.isLinux [
+      qt6.qtwayland
+    ];
 
   # Other Plover plugins can depend on `plover_build_utils/setup.py`, so:
   propagatedNativeBuildInputs = [
@@ -70,27 +123,36 @@ buildPythonPackage {
     pyside-tools-rcc
   ];
 
-  dependencies = [
-    Babel
-    pyside6
-    xlib
-    pyserial
-    appdirs
-    wcwidth
-    setuptools
-    certifi
-    evdev
-    packaging
-    pkginfo
-    pygments
-    readme-renderer
-    cmarkgfm
-    requests-cache
-    requests-futures
-    plover-stroke
-    psutil
-    rtf-tokenize
-  ];
+  dependencies =
+    [
+      Babel
+      pyside6
+      xlib
+      pyserial
+      appdirs
+      wcwidth
+      setuptools
+      certifi
+      packaging
+      pkginfo
+      pygments
+      readme-renderer
+      cmarkgfm
+      requests-cache
+      requests-futures
+      plover-stroke
+      psutil
+      rtf-tokenize
+    ]
+    ++ lib.optionals stdenvNoCC.isLinux [
+      evdev
+    ]
+    ++ lib.optionals stdenvNoCC.isDarwin [
+      appnope
+      pyobjc-core
+      pyobjc-framework-Cocoa
+      pyobjc-framework-Quartz
+    ];
 
   pythonImportsCheck = [
     "plover"
