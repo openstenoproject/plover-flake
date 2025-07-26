@@ -2,7 +2,9 @@
   buildPythonPackage,
   fetchPypi,
   inputs,
+  lib,
   qt6,
+  stdenvNoCC,
   writeShellScriptBin,
 
   # build-system
@@ -15,6 +17,7 @@
   dulwich,
   evdev,
   hatchling,
+  hidapi,
   hjson,
   importlib-metadata,
   inflect,
@@ -399,7 +402,10 @@ final: prev: {
 
   plover-stenohid-test = prev.plover-stenohid-test.overridePythonAttrs (old: {
     nativeBuildInputs = [ setuptools-scm ];
-    dependencies = [ pyudev ];
+    dependencies = [
+      hidapi
+      pyudev
+    ];
   });
 
   # plover-stenotype-extended
@@ -419,6 +425,7 @@ final: prev: {
     dependencies = [
       pystray
     ];
+    meta.broken = stdenvNoCC.isDarwin;
   });
 
   plover-treal = prev.plover-treal.overridePythonAttrs (old: {
@@ -436,6 +443,8 @@ final: prev: {
     postPatch = ''
       substituteInPlace setup.cfg --replace-fail 'xkbcommon<1.1' xkbcommon
     '';
+
+    meta.broken = stdenvNoCC.isDarwin;
   });
 
   # plover-unused-xtest-output
