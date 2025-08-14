@@ -18,7 +18,5 @@
       hid
       bitarray
     ];
-    # ModuleNotFoundError: No module named 'PyQt5'
-    meta.broken = true;
   };
 }
