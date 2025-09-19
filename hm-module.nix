@@ -132,7 +132,7 @@ in
           home.packages = [ cfg.package ];
         }
         (lib.mkIf (cfg.settings != null && pkgs.stdenvNoCC.isLinux) {
-          lib.xdg.configFile."plover".source = configFile;
+          home.file.".config/plover/plover.cfg".source = configFile;
         })
         (lib.mkIf (cfg.settings != null && pkgs.stdenvNoCC.isDarwin) {
           home.file."Library/Application Support/plover/plover.cfg".source = configFile;
