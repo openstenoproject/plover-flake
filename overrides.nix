@@ -489,7 +489,7 @@ final: prev: {
     dependencies = [ ruamel-yaml ];
   });
 
-  spectra-lexer = prev.spectra-lexer.overridePythonAttrs (old: {
+  plover-spectra-lexer = prev.plover-spectra-lexer.overridePythonAttrs (old: {
     # >        PyQt5>=5.14
     meta.broken = true;
   });
