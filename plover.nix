@@ -12,7 +12,7 @@
 
   # dependencies
   appdirs,
-  Babel,
+  babel,
   certifi,
   cmarkgfm,
   evdev,
@@ -123,7 +123,7 @@ buildPythonPackage {
   ];
 
   dependencies = [
-    Babel
+    babel
     pyside6
     xlib
     pyserial
