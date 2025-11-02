@@ -16,6 +16,7 @@
   certifi,
   cmarkgfm,
   evdev,
+  hid,
   psutil,
   pyside6,
   pyserial,
@@ -124,6 +125,7 @@ buildPythonPackage {
 
   dependencies = [
     babel
+    hid
     pyside6
     xlib
     pyserial
