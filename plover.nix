@@ -31,10 +31,9 @@
 
   # darwin
   appnope,
-  darwin,
   pyobjc-core,
   pyobjc-framework-Cocoa,
-# pyobjc-framework-Quartz, # when nixpkgs got it
+  pyobjc-framework-Quartz,
 }:
 let
   plover-stroke = buildPythonPackage {
@@ -43,42 +42,6 @@ let
     src = inputs.plover-stroke;
     pyproject = true;
     build-system = [ setuptools ];
-  };
-  pyobjc-framework-Quartz = buildPythonPackage {
-    pname = "pyobjc-framework-Quartz";
-    version = "11.0";
-    src = inputs.pyobjc;
-    pyproject = true;
-    build-system = [ setuptools ];
-    sourceRoot = "source/pyobjc-framework-Quartz";
-
-    buildInputs = [
-      darwin.libffi
-    ];
-
-    nativeBuildInputs = [
-      darwin.DarwinTools # sw_vers
-    ];
-
-    dependencies = [
-      pyobjc-core
-      pyobjc-framework-Cocoa
-    ];
-
-    postPatch = ''
-      substituteInPlace pyobjc_setup.py \
-        --replace-fail "-buildversion" "-buildVersion" \
-        --replace-fail "-productversion" "-productVersion" \
-        --replace-fail "/usr/bin/sw_vers" "sw_vers" \
-        --replace-fail "/usr/bin/xcrun" "xcrun"
-    '';
-
-    env.NIX_CFLAGS_COMPILE = toString [
-      "-I${darwin.libffi.dev}/include"
-      "-Wno-error=unused-command-line-argument"
-    ];
-
-    pythonImportsCheck = [ "Quartz" ];
   };
   rtf-tokenize = buildPythonPackage {
     pname = "rtf_tokenize";
