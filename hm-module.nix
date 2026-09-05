@@ -131,10 +131,10 @@ in
         {
           home.packages = [ cfg.package ];
         }
-        (lib.mkIf (cfg.settings != null && pkgs.stdenvNoCC.isLinux) {
+        (lib.mkIf (cfg.settings != null && pkgs.stdenvNoCC.hostPlatform.isLinux) {
           home.file.".config/plover/plover.cfg".source = configFile;
         })
-        (lib.mkIf (cfg.settings != null && pkgs.stdenvNoCC.isDarwin) {
+        (lib.mkIf (cfg.settings != null && pkgs.stdenvNoCC.hostPlatform.isDarwin) {
           home.file."Library/Application Support/plover/plover.cfg".source = configFile;
         })
       ]

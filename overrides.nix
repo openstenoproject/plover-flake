@@ -305,7 +305,7 @@ in
     dependencies = [
       pystray
     ];
-    meta.broken = stdenvNoCC.isDarwin;
+    meta.broken = stdenvNoCC.hostPlatform.isDarwin;
   };
 
   # hiadpi
@@ -324,7 +324,7 @@ in
       substituteInPlace setup.cfg --replace-fail 'xkbcommon<1.1' xkbcommon
     '';
 
-    meta.broken = stdenvNoCC.isDarwin;
+    meta.broken = stdenvNoCC.hostPlatform.isDarwin;
   };
 
   # ImportError: cannot import name 'Test' from 'plover_build_utils.setup'
