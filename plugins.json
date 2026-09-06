@@ -343,9 +343,9 @@
   },
   {
     "name": "plover-pinchord",
-    "filename": "plover_pinchord-29.2.tar.gz",
-    "version": "29.2",
-    "sha256": "dad8e592124722f53c5024a29d2f2ee5dd9025c7583e2ccf184f6e4622d7e668"
+    "filename": "plover_pinchord-30.0.tar.gz",
+    "version": "30.0",
+    "sha256": "95c217366e91ab47677fb20e9e42c6c15c27528166f6fd4a05177b3f671a22db"
   },
   {
     "name": "plover-platform-specific-translation",
