@@ -111,7 +111,7 @@ buildPythonPackage {
   buildInputs = [
     qt6.qtsvg # required for rendering icons
   ]
-  ++ lib.optionals pkgs.stdenv.isLinux [
+  ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
     qt6.qtwayland
   ];
 
@@ -144,10 +144,10 @@ buildPythonPackage {
     rtf-tokenize
     xkbcommon
   ]
-  ++ lib.optionals stdenvNoCC.isLinux [
+  ++ lib.optionals stdenvNoCC.hostPlatform.isLinux [
     evdev
   ]
-  ++ lib.optionals stdenvNoCC.isDarwin [
+  ++ lib.optionals stdenvNoCC.hostPlatform.isDarwin [
     appnope
     pyobjc-core
     pyobjc-framework-Cocoa
